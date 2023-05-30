@@ -1,17 +1,19 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, TextInput, Button, ToastAndroid, StyleSheet } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { setServerAddress, setServerPort } from './connexionSlice';
 
 export default function HomeScreen({navigation} : any) {
-  const [serverAddress, setServerAddress] = useState('');
-  const [serverPort, setServerPort] = useState('');
+  const dispatch = useDispatch();
+  const serverAddress = useSelector((state: any) => state.connection.serverAddress);
+  const serverPort = useSelector((state: any) => state.connection.serverPort);
 
   const testConnection = async () => {
     try {
       const response = await fetch(`http://${serverAddress}:${serverPort}`);
       if (response.ok) {
         ToastAndroid.show('Connexion réussie !', ToastAndroid.SHORT);
-        navigation.navigate('RecordView');
-        
+        navigation.navigate('App');
       } else {
         ToastAndroid.show('Erreur de connexion.', ToastAndroid.SHORT);
       }
@@ -22,17 +24,17 @@ export default function HomeScreen({navigation} : any) {
 
   return (
       <View style={styles.container}>
-      <Text>Connect to the server using the terminal and write down the informationr returned here: </Text>
+      <Text>Connect to the server using the terminal and write down the information returned here: </Text>
         <TextInput
           placeholder="Adresse IP"
           value={serverAddress}
-          onChangeText={setServerAddress}
+          onChangeText={text => dispatch(setServerAddress(text))}
           style={styles.input}
         />
         <TextInput
           placeholder="Port"
           value={serverPort}
-          onChangeText={setServerPort}
+          onChangeText={text => dispatch(setServerPort(text))}
           style={styles.input}
         />
         <Button title="Test connexion" onPress={testConnection} />
