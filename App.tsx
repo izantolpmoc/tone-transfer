@@ -1,5 +1,5 @@
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Provider } from 'react-redux';
 
@@ -12,7 +12,7 @@ const Tab = createMaterialTopTabNavigator();
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-
+  // Render the main app component
   return (
     <Provider store={store}>
       <NavigationContainer>
@@ -26,6 +26,7 @@ export default function App() {
 }
 
 function AppTabs() {
+  // Render the tab navigation component
   return (
     <Provider store={store}>
       <Tab.Navigator
@@ -35,7 +36,6 @@ function AppTabs() {
             paddingTop: 20
           },
         }}
-        //tabBarPosition='bottom'
       >
         <Tab.Screen name="RecordView" component={RecordView} />
         <Tab.Screen name="RaveView" component={RaveView} />
